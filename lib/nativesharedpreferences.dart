@@ -10,4 +10,9 @@ class Nativesharedpreferences {
     final String version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }
+
+  static Future<String> get token async {
+    final String token = await _channel.invokeMethod('getToken');
+    return token;
+  }
 }

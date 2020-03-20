@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nativesharedpreferences/nativesharedpreferences.dart';
 
@@ -13,6 +13,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
+  String _token = 'Unknown';
 
   @override
   void initState() {
@@ -23,9 +24,11 @@ class _MyAppState extends State<MyApp> {
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     String platformVersion;
+    String token;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       platformVersion = await Nativesharedpreferences.platformVersion;
+      token = await Nativesharedpreferences.token;
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -37,6 +40,7 @@ class _MyAppState extends State<MyApp> {
 
     setState(() {
       _platformVersion = platformVersion;
+      _token = token;
     });
   }
 
@@ -48,7 +52,12 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child: Column(
+            children: <Widget>[
+              Text('Running on: $_platformVersion\n'),
+              Text('Token: $_token\n')
+            ],
+          ),
         ),
       ),
     );
